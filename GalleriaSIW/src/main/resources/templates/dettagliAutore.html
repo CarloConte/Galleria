@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<style>
+
+    body {
+        padding-top: 150px;
+    }
+    
+    	#dettagli{
+		font-style: italic;
+		text-align: center;
+	}
+	li {
+	font-style: italic;
+}
+    #logout {
+    	margin-top: 2px;
+    }
+ 
+</style>
+<title>Dettagli Autore</title>
+<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Galleria</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a th:href="@{/listaOpere}">Lista Opere</a></li>
+						<li><a th:href="@{/listaAutori}">Lista Autori</a></li>
+						<li><a th:href="@{/registrati}">Registrati come Admin</a></li>
+						<li><a th:href="@{/login}">Login</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Ricerca<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/cercaOpere}">Cerca Opera</a></li>
+								<li><a th:href="@{/cercaAutore}">Cerca Autore</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Operazioni Admin <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/inserisciOpera}">Inserisci Opera</a></li>
+								<li><a th:href="@{/inserisciAutore}">Inserisci Autore</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="isAuthenticated()">
+						<form class="form-inline" th:action="@{/logout}" method="POST">
+							<input type="submit" value="LOGOUT" class="btn btn-secondary btn-lg" id="logout" th:sec="hasAuthority('ADMIN')"/>
+						</form>
+					</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+		
+		
+<p><img alt="immagine autore"  th:src="${autore.imgUrl}" style="width:400px;heigth:400px;margin-left: 675px"/></p>
+<div id="dettagli" class="container" >
+<p><span th:text="'Nome : '+${autore.nome}"></span></p>
+<p><span th:text="'Cognome : '+${autore.cognome}"></span></p>
+<p><span th:text="'Nazionalità : '+${autore.nazionalita}"></span></p>
+<p><span th:text="'Data di nascita : '+${autore.dataNascita}"></span></p>
+<p><span th:text="'Data di morte : '+${autore.dataMorte}"></span></p>
+<p><span th:text="'OPERE:'"></span></p>
+<p th:each ="opera : ${autore.opere}"><a th:href="@{/dettagliOpera(id=${opera.id})}" th:text="${opera.titolo}"></a></p>
+<p><span sec:authorize = "hasAuthority('ADMIN')"><a th:href ="@{/cancellaAutore(id=${autore.id})}" class="btn btn-info" role="button">Cancella</a></span></p>
+</div>
+
+</body>
+</html>

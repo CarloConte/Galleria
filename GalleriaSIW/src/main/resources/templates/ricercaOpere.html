@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<style>
+
+    body {
+      padding-top: 120px;
+    }
+    h2 {
+    	text-align:center;
+    }
+    
+   #form{
+	padding-top: 30px;
+	padding-left: 0;
+   }
+   
+   li {
+	font-style: italic;
+}
+    #logout {
+    	margin-top: 2px;
+    }
+ 
+</style>
+<title>Cerca Opere</title>
+<meta charset="utf-8" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+		<!-- Fixed navbar -->
+		<div class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target=".navbar-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Galleria</a>
+				</div>
+				<div class="collapse navbar-collapse">
+					<ul class="nav navbar-nav">
+						<li><a th:href="@{/listaOpere}">Lista Opere</a></li>
+						<li><a th:href="@{/listaAutori}">Lista Autori</a></li>
+						<li><a th:href="@{/registrati}">Registrati come Admin</a></li>
+						<li><a th:href="@{/login}">Login</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Ricerca<b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/cercaOpere}">Cerca Opera</a></li>
+								<li><a th:href="@{/cercaAutore}">Cerca Autore</a></li>
+							</ul>
+						</li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Operazioni Admin <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a th:href="@{/inserisciOpera}">Inserisci Opera</a></li>
+								<li><a th:href="@{/inserisciAutore}">Inserisci Autore</a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+					<li sec:authorize="isAuthenticated()">
+						<form class="form-inline" th:action="@{/logout}" method="POST">
+							<input type="submit" value="LOGOUT" class="btn btn-secondary btn-lg" id="logout" th:sec="hasAuthority('ADMIN')"/>
+						</form>
+					</li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+<span th:text = "${erroreRicerca}"></span>
+<h2>Cerca un opera</h2>
+
+<div align="center">
+	<form class="form-inline" th:action="@{/ricercaOpere}" method="POST" id="form">
+		<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="valore" name="valore" /> 
+		In base a: 
+		<select class="form-control" name="attributo">
+			<option value="Titolo" selected="selected">Titolo</option>
+			<option value="Anno">Anno</option>
+			<option value="Tecnica">Tecnica</option>
+			<option value="Autore">Autore</option>
+		</select> 
+		<input type="submit" class ="btn btn-primary" value="Cerca" />
+	</form>
+	</div>
+</body>
+</html>
